@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<!-- saved from url=(0107)https://www.humankode.com/asp-net-core/develop-locally-with-https-self-signed-certificates-and-asp-net-core -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core</title>
+<link rel="icon" href="https://www.humankode.com/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="https://www.humankode.com/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<link rel="stylesheet" href="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/blog.min.css" type="text/css">
+<link rel="alternate" href="http://feeds.feedburner.com/Humankode" type="application/atom+xml" title="HumanKode Feed">
+<link href="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/css" rel="stylesheet" type="text/css">
+<meta name="generator" content="HumanKode v0.1.5">
+<meta name="description" content="Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core">
+<link rel="canonical" href="https://www.humankode.com/asp-net-core/develop-locally-with-https-self-signed-certificates-and-asp-net-core">
+<meta property="og:site_name" content="HumanKode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core">
+<meta property="og:description" content="A detailed guide to setting up HTTPS and self-signed certificates on your local development environment for ASP.NET Core on Windows, Mac OSX and Linux.">
+<meta property="og:url" content="https://www.humankode.com/asp-net-core/develop-locally-with-https-self-signed-certificates-and-asp-net-core">
+<meta property="og:image" content="https://www.humankode.com/assets/img-content/blog/863beb04-a102-4cfa-8d30-f1fd843b1bfb/featured/afr/develop-locally-with-https-self-signed-certificates-and-asp-net-core.png">
+<meta property="article:published_time" content="2017-08-07T05:00:00.0000000Z">
+<meta property="article:modified_time" content="2018-06-20T05:40:03.0000000Z">
+<meta property="article:tag" content="asp.net core">
+<meta property="article:tag" content="https">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="ssl">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:title" content="Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core">
+<meta property="twitter:description" content="A detailed guide to setting up HTTPS and self-signed certificates on your local development environment for ASP.NET Core on Windows, Mac OSX and Linux.">
+<meta property="twitter:url" content="https://www.humankode.com/asp-net-core/develop-locally-with-https-self-signed-certificates-and-asp-net-core">
+<meta property="twitter:image" content="https://www.humankode.com/assets/img-content/blog/863beb04-a102-4cfa-8d30-f1fd843b1bfb/featured/afr/develop-locally-with-https-self-signed-certificates-and-asp-net-core.png">
+<meta property="twitter:site" content="@thecarlo">
+<meta name="twitter:label1" content="Written by">
+<meta name="twitter:data1" content="Carlo van Wyk">
+<meta name="twitter:label2" content="Filed under">
+<meta name="twitter:data2" content="asp.net core,https,linux,ssl">
+<script type="text/javascript" async="" src="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/analytics.js.download"></script><script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://www.humankode.com/asp-net-core/develop-locally-with-https-self-signed-certificates-and-asp-net-core"
+        },
+        "headline": "Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core",
+        "description": "A detailed guide to setting up HTTPS and self-signed certificates on your local development environment for ASP.NET Core on Windows, Mac OSX and Linux.",
+
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://www.humankode.com/assets/img-content/blog/863beb04-a102-4cfa-8d30-f1fd843b1bfb/featured/afr/develop-locally-with-https-self-signed-certificates-and-asp-net-core.png",
+            "width": 650,
+            "height": 295
+        },
+                "datePublished": "2017-08-07T05:00:00.0000000Z",
+        "dateModified": "2018-06-20T05:40:03.0000000Z",
+        "author": {
+            "@type": "Person",
+            "name": "Carlo van Wyk",
+            "image": {
+                "@type": "ImageObject",
+                "url": "https://www.humankode.com/assets/img/carlo-van-wyk-profile.jpg",
+                "width": 400,
+                "height": 400
+            }
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "HumanKode",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://www.humankode.com/assets/img/humankode-logo.png",
+                "width": 227,
+                "height": 51
+            }
+        }
+    }
+    </script>
+<script type="text/javascript" async="" src="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/embed.js.download"></script><link rel="preload" as="style" href="https://c.disquscdn.com/next/embed/styles/lounge.3999ac261b914f8b8b5e85df0ff3eaea.css"><link rel="preload" as="script" href="https://c.disquscdn.com/next/embed/common.bundle.5f8e47303ecf1055cd7c6905466d140a.js"><link rel="preload" as="script" href="https://c.disquscdn.com/next/embed/lounge.bundle.33067ddbd4792de0b384ceb588602715.js"><link rel="preload" as="script" href="https://disqus.com/next/config.js"></head>
+<body>
+<script async="" src="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/js"></script>
+<script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-121906-22');
+        </script>
+<div id="container">
+<div id="header">
+<nav class="navbar navbar-default">
+<div class="site-width">
+<div class="navbar-header">
+<a class="navbar-brand" href="https://www.humankode.com/">&lt;&gt; humankode</a>
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+</div>
+</div>
+<div class="navbar-collapse collapse">
+<ul class="nav navbar-nav">
+<li><a href="https://www.humankode.com/">Home</a></li>
+<li><a href="https://www.humankode.com/contact">Contact</a></li>
+</ul>
+</div>
+</nav>
+</div>
+<div id="body">
+<div id="content">
+<div class="site-width">
+<div class="container">
+<div class="body-padding">
+<div class="article">
+<div class="content">
+<div class="heading">
+<h1 title="Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core"><a href="https://www.humankode.com/asp-net-core/develop-locally-with-https-self-signed-certificates-and-asp-net-core" title="Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core">Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core</a></h1>
+<h2 class="subtitle" title="A Detailed Guide to Setting up HTTPS and Self-Signed Certificates on Your Local Development Environment for ASP.NET Core on Windows, Mac OSX and Linux">A Detailed Guide to Setting up HTTPS and Self-Signed Certificates on Your Local Development Environment for ASP.NET Core on Windows, Mac OSX and Linux</h2>
+<div class="tag-header">
+<span class="date">Published on August 07, 2017</span>
+<div class="tags"><i id="tag-icon" class="fa fa-tags fa-lg" aria-hidden="true" title="Tags"></i><a href="https://www.humankode.com/tag/asp-net-core" title="Tag: ASP.NET Core">ASP.NET Core</a>, <a href="https://www.humankode.com/tag/https" title="Tag: HTTPS">HTTPS</a>, <a href="https://www.humankode.com/tag/linux" title="Tag: Linux">Linux</a>, <a href="https://www.humankode.com/tag/ssl" title="Tag: SSL">SSL</a></div>
+<div style="clear: both;"></div>
+</div>
+</div>
+<div>
+ <div class="photo" style="margin-top: 0;"><img title="HTTPS and Self Signed Certificates with ASP.NET Core - Develop Locally with HTTPS, Self Signed Certificates and ASP.NET Core" src="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/https-and-self-signed-certificates-with-asp-net-core.png" alt="HTTPS and Self Signed Certificates with ASP.NET Core - Develop Locally with HTTPS, Self Signed Certificates and ASP.NET Core" class="img-responsive"></div>
+<p><span style="font-weight: 400;">Note : This post and the GitHub repo has been updated with examples for ASP.NET Core 2.0</span></p>
+<p><span style="font-weight: 400;">In this tutorial, I’m going to show you how to set up a local development environment that uses HTTPS with ASP.NET Core 2.0 on Windows, Mac OSX and Ubuntu Linux. I’ll show you how to create self-signed certificates and add them to your trusted root certificate store in order to get rid of the annoying browser messages. And finally, I’ll cover how to setup Kestrel, the built in web server for ASP.NET Core, to use HTTPS.</span></p>
+<p><span style="font-weight: 400;">Creating self-signed certificates, trusting them, and getting rid of browser warnings is filled with lots of nuances, and the process of creating self-signed certificates is poorly documented on the internet. Installing certificates on Windows and Linux involves completely different processes, but it's become essential in the ASP.NET Core world where cross platform development is an integral part of the development process. Then there's the ubiquitous and ever annoying “your connection is not secure” message in Chrome, Chrome messages relating to common name matching in certificates and specifics around configuring HTTPS in ASP.NET Core and Kestrel.</span></p>
+<div class="photo"><img title="Chrome : Your Connection is Not Private - Develop Locally with HTTPS, Self Signed Certificates and ASP.NET Core" src="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/chrome-your-connection-is-not-private.jpg" alt="Chrome : Your Connection is Not Private - Develop Locally with HTTPS, Self Signed Certificates and ASP.NET Core" class="img-responsive">
+<div class="caption">
+<div class="title">Chrome: Your Connection is Not Private</div>
+</div>
+</div>
+<p><span style="font-weight: 400;">I've lost count of the number of times I've had to google this process, so I figured it would be a good idea to create a guide that covers everything in detail for both Windows and Linux.</span></p>
+<h3><strong>Why HTTPS?</strong></h3>
+<p><span style="font-weight: 400;">If you're a developer that doesn't know how to implement HTTPS, you’re lacking a critical skill. The internet as we know it is moving rapidly towards an era where all traffic will be served over HTTPS.&nbsp;</span><span style="font-weight: 400;">As things stand today, HTTPS is already ubiquitous. The sites you use every day such as Google, Facebook, Microsoft, your banking sites - even this site - they’re all using HTTPS. </span></p>
+<p><span style="font-weight: 400;">If you’ve developed apps in the last 2 - 3 years, it’s highly likely that the production version of your web application is running in HTTPS. Going forward, it’s a given that the overwhelming majority of sites will use HTTPS.</span></p>
+<p>More than 50% of all page views on the internet is already being served over HTTPS, and with <a href="https://www.humankode.com/security/upgrade-your-site-to-https-now-as-chrome-and-firefox-label-http-sites-insecure">Google Chrome's&nbsp;eventual objective to mark all HTTP sites as insecure</a>, it's only a matter of time before the overwhelming majority of traffic will be served over HTTPS.</p>
+<p>Last, but certainly not least: all communications over HTTPS are encrypted. This means nobody can snoop your traffic.</p>
+<div class="photo"><img title="Percentage of Sites Loaded over HTTPS - Develop Locally with HTTPS, Self Signed Certificates and ASP.NET Core" src="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/percentage-of-sites-loaded-over-https.jpg" alt="Percentage of Sites Loaded over HTTPS - Develop Locally with HTTPS, Self Signed Certificates and ASP.NET Core" class="img-responsive">
+<div class="caption">
+<div class="title">Percentage of Sites Loaded over HTTPS</div>
+</div>
+</div>
+<h3><strong>A Brief Explanation of Certificates and Why You Need a Self Signed Certificate for Local Development</strong></h3>
+<p><span style="font-weight: 400;">Certificates and HTTPS is a huge topic and even a brief explanation would be quite involved. But let’s look at some concepts on a very high level around issuing certificates for the purposes of this tutorial.</span></p>
+<p><span style="font-weight: 400;">Every time you visit an HTTPS site, your browser downloads the site’s certificate, containing a public key of the server that the site is hosted on, signed with a private key of the Certificate Authority (CA).</span></p>
+<p><span style="font-weight: 400;">Your operating system (OS) comes with a list of trusted root CA’s which are pre installed. Browsers use these list of root CA’s to validate the certificate against. This is done by verifying that the public key in the certificate that your browser downloaded from the site is signed by the CA that issued that certificate.</span></p>
+<p><span style="font-weight: 400;">The certificate also contains the domain name of the server and is used by your browser to confirm that site that the browser is connected to is the same as the site listed in the certificate issued by the CA. Following that, encryption takes place which is a topic outside of the scope of this tutorial.</span></p>
+<p><span style="font-weight: 400;">Since we don’t use certificates issued by CA’s for local development, we can issue a self-signed certificate and then add this self-signed certificate to our trusted root certificate authority store. This way, your browser will trust the certificate.</span><span style="font-weight: 400;"><br></span></p>
+<h3><strong>On the Security of Self-Signed Certificates</strong></h3>
+<p><span style="font-weight: 400;">Self-signed certificates offer encrypted communication over HTTPS just like certificates issued by a Certificate Authority (CA) does, at least once the connection is made. This in itself does not make self-signed certificates secure. </span></p>
+<p><span style="font-weight: 400;">For example, self-signed certificates are vulnerable to man in the middle attacks if they are not properly installed and trusted. Since the only way to trust a self-signed certificate is to manually import the certificate in the trusted root CA store for every device visiting the site, self-signed certificates are effectively insecure by default, and this is one of the main reasons you should never use self-signed certificates in production.</span></p>
+<p><span style="font-weight: 400;">On the localhost we don’t have the same security requirements as a public facing site does. Therefore, using a self-signed certificate for local development serves the primary purpose of being able to develop locally using HTTPS.</span></p>
+<h3><strong>Create a Self Signed Certificate and trust it on Windows</strong></h3>
+<p><span style="font-weight: 400;">Creating a self-signed certificate with ASP.NET Core in Windows is pretty easy in Powershell. I’ve written a Powershell script that takes care of everything.</span></p>
+<p><span style="font-weight: 400;">Simply open up Powershell with administrator privileges, set the password for your certificate in the script, and run the script.</span><span style="font-weight: 400;"><br></span><span style="font-weight: 400;"><br></span></p>
+<pre class=" language-powershell"><code class=" language-powershell"><span class="token comment" spellcheck="true"># setup certificate properties including the commonName (DNSName) property for Chrome 58+</span>
+<span class="token variable">$certificate</span> = New<span class="token operator">-</span>SelfSignedCertificate `
+    <span class="token operator">-</span>Subject localhost `
+    <span class="token operator">-</span>DnsName localhost `
+    <span class="token operator">-</span>KeyAlgorithm RSA `
+    <span class="token operator">-</span>KeyLength 2048 `
+    <span class="token operator">-</span>NotBefore <span class="token punctuation">(</span><span class="token function">Get-Date</span><span class="token punctuation">)</span> `
+    <span class="token operator">-</span>NotAfter <span class="token punctuation">(</span><span class="token function">Get-Date</span><span class="token punctuation">)</span><span class="token punctuation">.</span>AddYears<span class="token punctuation">(</span>2<span class="token punctuation">)</span> `
+    <span class="token operator">-</span>CertStoreLocation <span class="token string">"cert:CurrentUser\My"</span> `
+    <span class="token operator">-</span>FriendlyName <span class="token string">"Localhost Certificate for .NET Core"</span> `
+    <span class="token operator">-</span>HashAlgorithm SHA256 `
+    <span class="token operator">-</span>KeyUsage DigitalSignature<span class="token punctuation">,</span> KeyEncipherment<span class="token punctuation">,</span> DataEncipherment `
+    <span class="token operator">-</span>TextExtension @<span class="token punctuation">(</span><span class="token string">"2.5.29.37={text}1.3.6.1.5.5.7.3.1"</span><span class="token punctuation">)</span> 
+<span class="token variable">$certificatePath</span> = <span class="token string">'Cert:\CurrentUser\My\'</span> <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token variable">$certificate</span><span class="token punctuation">.</span>ThumbPrint<span class="token punctuation">)</span>  
+
+<span class="token comment" spellcheck="true"># create temporary certificate path</span>
+<span class="token variable">$tmpPath</span> = <span class="token string">"C:\tmp"</span>
+<span class="token keyword">If</span><span class="token punctuation">(</span><span class="token operator">!</span><span class="token punctuation">(</span><span class="token function">test-path</span> <span class="token variable">$tmpPath</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token function">New-Item</span> <span class="token operator">-</span>ItemType Directory <span class="token operator">-</span>Force <span class="token operator">-</span>Path <span class="token variable">$tmpPath</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true"># set certificate password here</span>
+<span class="token variable">$pfxPassword</span> = ConvertTo<span class="token operator">-</span>SecureString <span class="token operator">-</span>String <span class="token string">"YourSecurePassword"</span> <span class="token operator">-</span>Force <span class="token operator">-</span>AsPlainText
+<span class="token variable">$pfxFilePath</span> = <span class="token string">"c:\tmp\localhost.pfx"</span>
+<span class="token variable">$cerFilePath</span> = <span class="token string">"c:\tmp\localhost.cer"</span>
+
+<span class="token comment" spellcheck="true"># create pfx certificate</span>
+Export<span class="token operator">-</span>PfxCertificate <span class="token operator">-</span>Cert <span class="token variable">$certificatePath</span> <span class="token operator">-</span>FilePath <span class="token variable">$pfxFilePath</span> <span class="token operator">-</span>Password <span class="token variable">$pfxPassword</span>
+Export<span class="token operator">-</span>Certificate <span class="token operator">-</span>Cert <span class="token variable">$certificatePath</span> <span class="token operator">-</span>FilePath <span class="token variable">$cerFilePath</span>
+
+<span class="token comment" spellcheck="true"># import the pfx certificate</span>
+Import<span class="token operator">-</span>PfxCertificate <span class="token operator">-</span>FilePath <span class="token variable">$pfxFilePath</span> Cert:\LocalMachine\My <span class="token operator">-</span>Password <span class="token variable">$pfxPassword</span> <span class="token operator">-</span>Exportable
+
+<span class="token comment" spellcheck="true"># trust the certificate by importing the pfx certificate into your trusted root</span>
+Import<span class="token operator">-</span>Certificate <span class="token operator">-</span>FilePath <span class="token variable">$cerFilePath</span> <span class="token operator">-</span>CertStoreLocation Cert:\CurrentUser\Root
+
+<span class="token comment" spellcheck="true"># optionally delete the physical certificates (don’t delete the pfx file as you need to copy this to your app directory)</span>
+<span class="token comment" spellcheck="true"># Remove-Item $pfxFilePath</span>
+<span class="token function">Remove-Item</span> <span class="token variable">$cerFilePath</span></code></pre>
+<h3><strong>Create a Self-Signed Certificate and trust it on Mac OSX</strong></h3>
+<p>&nbsp;Create a config file for your certificate :</p>
+<pre class=" language-powershell"><code class=" language-powershell">sudo nano localhost<span class="token punctuation">.</span>conf</code></pre>
+<p>Paste the contents into the conf file and save the file</p>
+<pre class=" language-powershell"><code class=" language-powershell"><span class="token namespace">[req]</span>
+default_bits       = 2048
+default_keyfile    = localhost<span class="token punctuation">.</span>key
+distinguished_name = req_distinguished_name
+req_extensions     = req_ext
+x509_extensions    = v3_ca
+
+<span class="token namespace">[req_distinguished_name]</span>
+countryName                 = Country Name <span class="token punctuation">(</span>2 letter code<span class="token punctuation">)</span>
+countryName_default         = US
+stateOrProvinceName         = State or Province Name <span class="token punctuation">(</span>full name<span class="token punctuation">)</span>
+stateOrProvinceName_default = New York
+localityName                = Locality Name <span class="token punctuation">(</span>eg<span class="token punctuation">,</span> city<span class="token punctuation">)</span>
+localityName_default        = Rochester
+organizationName            = Organization Name <span class="token punctuation">(</span>eg<span class="token punctuation">,</span> company<span class="token punctuation">)</span>
+organizationName_default    = localhost
+organizationalUnitName      = organizationalunit
+organizationalUnitName_default = Development
+commonName                  = Common Name <span class="token punctuation">(</span>e<span class="token punctuation">.</span>g<span class="token punctuation">.</span> server FQDN or YOUR name<span class="token punctuation">)</span>
+commonName_default          = localhost
+commonName_max              = 64
+
+<span class="token namespace">[req_ext]</span>
+subjectAltName = @alt_names
+
+<span class="token namespace">[v3_ca]</span>
+subjectAltName = @alt_names
+
+<span class="token namespace">[alt_names]</span>
+DNS<span class="token punctuation">.</span>1   = localhost
+DNS<span class="token punctuation">.</span>2   = 127<span class="token punctuation">.</span>0<span class="token punctuation">.</span>0<span class="token punctuation">.</span>1</code></pre>
+<p>Ensure the&nbsp;OpenSSL&nbsp;library is installed on Max OSX.</p>
+<p>Run the following command to check if OpenSSL is installed</p>
+<pre class=" language-powershell"><code class=" language-powershell">which openssl</code></pre>
+<p>If OpenSSL is not installed, install OpenSSL with brew</p>
+<pre class=" language-powershell"><code class=" language-powershell">brew install openssl</code></pre>
+<p>Run the following 2 commands using OpenSSL to create a self-signed certificate in Mac OSX with OpenSSL :</p>
+<pre class=" language-powershell"><code class=" language-powershell">sudo openssl req <span class="token operator">-</span>x509 <span class="token operator">-</span>nodes <span class="token operator">-</span>days 365 <span class="token operator">-</span>newkey rsa:2048 <span class="token operator">-</span>keyout localhost<span class="token punctuation">.</span>key <span class="token operator">-</span>out localhost<span class="token punctuation">.</span>crt <span class="token operator">-</span>config localhost<span class="token punctuation">.</span>conf <span class="token operator">-</span>passin pass:YourSecurePassword</code></pre>
+<pre class=" language-powershell"><code class=" language-powershell">sudo openssl pkcs12 <span class="token operator">-</span>export <span class="token operator">-</span>out localhost<span class="token punctuation">.</span>pfx <span class="token operator">-</span>inkey localhost<span class="token punctuation">.</span>key <span class="token operator">-in</span> localhost<span class="token punctuation">.</span>crt
+</code></pre>
+<p>To trust the self-signed certificate on Mac OSX is really easy.</p>
+<p>Open the KeyChain Access app (do a spotlight search for KeyChain to find it).</p>
+<p>Select System in the Keychains pane, and drag your .pfx certificate into the certificate list pane.</p>
+<div class="photo"><img title="Trust a self signed certificate using Keychain Access - Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core" src="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/trust-a-self-signed-certificate-using-keychain-access.png" alt="Trust a self signed certificate using Keychain Access - Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core" class="img-responsive">
+<div class="caption">
+<div class="title">Trust a self-signed certificate using Keychain Access</div>
+</div>
+</div>
+<p>To trust your self-signed certificate, double-click your certificate, and under the trust section select Always Trust.</p>
+<div class="photo"><img title="Trust a Self-Signed Certificate in KeyChain Access - Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core" src="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/trust-a-self-signed-certificate-in-keychain-access.png" alt="Trust a Self-Signed Certificate in KeyChain Access - Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core" class="img-responsive">
+<div class="caption">
+<div class="title">Trust a Self-Signed Certificate in KeyChain Access</div>
+</div>
+</div>
+<h3><strong>Create a Self-Signed Certificate and trust it on Ubuntu Linux</strong></h3>
+<p><span style="font-weight: 400;">Creating a self-signed certificate in Ubuntu Linux is even simpler. All that is required is 2 simple commands to generate the self-signed certificate, and a single command to copy the certificate to your trusted store.</span></p>
+<p><span style="font-weight: 400;">Create a config file for your certificate :</span></p>
+<pre class=" language-powershell"><code class=" language-powershell"><span class="token function">cat</span> &lt;&lt; EOL &gt; localhost<span class="token punctuation">.</span>conf
+<span class="token namespace">[req]</span>
+default_bits       = 2048
+default_keyfile    = localhost<span class="token punctuation">.</span>key
+distinguished_name = req_distinguished_name
+req_extensions     = req_ext
+x509_extensions    = v3_ca
+
+<span class="token namespace">[req_distinguished_name]</span>
+countryName                 = Country Name <span class="token punctuation">(</span>2 letter code<span class="token punctuation">)</span>
+countryName_default         = US
+stateOrProvinceName         = State or Province Name <span class="token punctuation">(</span>full name<span class="token punctuation">)</span>
+stateOrProvinceName_default = New York
+localityName                = Locality Name <span class="token punctuation">(</span>eg<span class="token punctuation">,</span> city<span class="token punctuation">)</span>
+localityName_default        = Rochester
+organizationName            = Organization Name <span class="token punctuation">(</span>eg<span class="token punctuation">,</span> company<span class="token punctuation">)</span>
+organizationName_default    = localhost
+organizationalUnitName      = organizationalunit
+organizationalUnitName_default = Development
+commonName                  = Common Name <span class="token punctuation">(</span>e<span class="token punctuation">.</span>g<span class="token punctuation">.</span> server FQDN or YOUR name<span class="token punctuation">)</span>
+commonName_default          = localhost
+commonName_max              = 64
+
+<span class="token namespace">[req_ext]</span>
+subjectAltName = @alt_names
+
+<span class="token namespace">[v3_ca]</span>
+subjectAltName = @alt_names
+
+<span class="token namespace">[alt_names]</span>
+DNS<span class="token punctuation">.</span>1   = localhost
+DNS<span class="token punctuation">.</span>2   = 127<span class="token punctuation">.</span>0<span class="token punctuation">.</span>0<span class="token punctuation">.</span>1
+EOL</code></pre>
+<p><span style="font-weight: 400;">Run the following 2 commands using openssl to create a self-signed certificate in Ubuntu Linux :</span></p>
+<pre class=" language-powershell"><code class=" language-powershell">sudo openssl req <span class="token operator">-</span>x509 <span class="token operator">-</span>nodes <span class="token operator">-</span>days 365 <span class="token operator">-</span>newkey rsa:2048 <span class="token operator">-</span>keyout localhost<span class="token punctuation">.</span>key <span class="token operator">-</span>out localhost<span class="token punctuation">.</span>crt <span class="token operator">-</span>config localhost<span class="token punctuation">.</span>conf <span class="token operator">-</span>passin pass:YourSecurePassword</code></pre>
+<pre class=" language-powershell"><code class=" language-powershell">sudo openssl pkcs12 <span class="token operator">-</span>export <span class="token operator">-</span>out localhost<span class="token punctuation">.</span>pfx <span class="token operator">-</span>inkey localhost<span class="token punctuation">.</span>key <span class="token operator">-in</span> localhost<span class="token punctuation">.</span>crt
+</code></pre>
+<p><span style="font-weight: 400;">When running the export command above, be sure to enter your password when it prompts for an export password. Then, when the export is complete, copy the localhost.pfx to your project's root folder (src/https.web).</span></p>
+<p><span style="font-weight: 400;">Then, run the following certutil command to add the certificate to your trusted CA root store :</span></p>
+<pre class=" language-powershell"><code class=" language-powershell">certutil <span class="token operator">-</span>d sql:<span class="token variable">$HOME</span><span class="token operator">/</span><span class="token punctuation">.</span>pki<span class="token operator">/</span>nssdb <span class="token operator">-</span>A <span class="token operator">-</span>t <span class="token string">"P,,"</span> <span class="token operator">-</span>n <span class="token string">"localhost"</span> <span class="token operator">-</span>i localhost<span class="token punctuation">.</span>crt</code></pre>
+<p>To confirm or list the trusted certificates installed with certutil, run the following command :</p>
+<pre class=" language-powershell"><code class=" language-powershell">certutil <span class="token operator">-</span>L <span class="token operator">-</span>d sql:$<span class="token punctuation">{</span>HOME<span class="token punctuation">}</span><span class="token operator">/</span><span class="token punctuation">.</span>pki<span class="token operator">/</span>nssdb</code></pre>
+<p>To delete the certificate from the trusted CA root store, run the following command :</p>
+<pre class=" language-powershell"><code class=" language-powershell">certutil <span class="token operator">-</span>D <span class="token operator">-</span>d sql:$<span class="token punctuation">{</span>HOME<span class="token punctuation">}</span><span class="token operator">/</span><span class="token punctuation">.</span>pki<span class="token operator">/</span>nssdb <span class="token operator">-</span>n <span class="token string">"localhost"</span></code></pre>
+<h3><strong>Configuring HTTPS in ASP.NET Core 2.0</strong></h3>
+<p><span style="font-weight: 400;">Once you’ve created a self-signed certificate and trusted the certificate in your root CA store on either Mac, Linux or Windows, the process of configuring ASP.NET Core to use HTTPS is the same.</span></p>
+<p><span style="font-weight: 400;">Start by copying the .pfx certificate you created earlier in Mac, Linux or Windows to the root of your project directory.</span><span style="font-weight: 400;"><br></span><span style="font-weight: 400;"><br></span><span style="font-weight: 400;">Then, create a certificate.json configuration file that contains the certificate filename and password. I prefer keeping this in a separate file as it keeps things separated and simple. ASP.NET Core 2 allows you to configure Kestrel and HTTPS in appsettings.json, but the configuration is more involved and I prefer this method which involves a simpler configuration.</span><span style="font-weight: 400;"><br></span></p>
+<p class="code"><code class="highlighter">certificate.json</code></p>
+<pre class=" language-json"><code class=" language-json"><span class="token punctuation">{</span>
+  <span class="token property">"certificateSettings"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"fileName"</span><span class="token operator">:</span> <span class="token string">"localhost.pfx"</span><span class="token punctuation">,</span>
+    <span class="token property">"password"</span><span class="token operator">:</span> <span class="token string">"YourSecurePassword"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p class="code"><code class="highlighter">program.cs</code></p>
+<pre class=" language-csharp"><code class=" language-csharp"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Program</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">var</span> config <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ConfigurationBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">SetBasePath</span><span class="token punctuation">(</span>Directory<span class="token punctuation">.</span><span class="token function">GetCurrentDirectory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">AddEnvironmentVariables</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">AddJsonFile</span><span class="token punctuation">(</span><span class="token string">"certificate.json"</span><span class="token punctuation">,</span> optional<span class="token punctuation">:</span> <span class="token keyword">true</span><span class="token punctuation">,</span> reloadOnChange<span class="token punctuation">:</span> <span class="token keyword">true</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">AddJsonFile</span><span class="token punctuation">(</span>$<span class="token string">"certificate.{Environment.GetEnvironmentVariable("</span>ASPNETCORE_ENVIRONMENT<span class="token string">")}.json"</span><span class="token punctuation">,</span> optional<span class="token punctuation">:</span> <span class="token keyword">true</span><span class="token punctuation">,</span> reloadOnChange<span class="token punctuation">:</span> <span class="token keyword">true</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">Build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">var</span> certificateSettings <span class="token operator">=</span> config<span class="token punctuation">.</span><span class="token function">GetSection</span><span class="token punctuation">(</span><span class="token string">"certificateSettings"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">string</span> certificateFileName <span class="token operator">=</span> certificateSettings<span class="token punctuation">.</span><span class="token generic-method function">GetValue<span class="token punctuation">&lt;</span><span class="token keyword">string</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token string">"filename"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">string</span> certificatePassword <span class="token operator">=</span> certificateSettings<span class="token punctuation">.</span><span class="token generic-method function">GetValue<span class="token punctuation">&lt;</span><span class="token keyword">string</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token string">"password"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">var</span> certificate <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">X509Certificate2</span><span class="token punctuation">(</span>certificateFileName<span class="token punctuation">,</span> certificatePassword<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">var</span> host <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WebHostBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">UseKestrel</span><span class="token punctuation">(</span>
+                options <span class="token operator">=</span><span class="token operator">&gt;</span>
+                <span class="token punctuation">{</span>
+                    options<span class="token punctuation">.</span>AddServerHeader <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+                    options<span class="token punctuation">.</span><span class="token function">Listen</span><span class="token punctuation">(</span>IPAddress<span class="token punctuation">.</span>Loopback<span class="token punctuation">,</span> <span class="token number">44321</span><span class="token punctuation">,</span> listenOptions <span class="token operator">=</span><span class="token operator">&gt;</span>
+                    <span class="token punctuation">{</span>
+                        listenOptions<span class="token punctuation">.</span><span class="token function">UseHttps</span><span class="token punctuation">(</span>certificate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">UseConfiguration</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">UseContentRoot</span><span class="token punctuation">(</span>Directory<span class="token punctuation">.</span><span class="token function">GetCurrentDirectory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token generic-method function">UseStartup<span class="token punctuation">&lt;</span>Startup<span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">UseUrls</span><span class="token punctuation">(</span><span class="token string">"https://localhost:44321"</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">Build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        host<span class="token punctuation">.</span><span class="token function">Run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>It's particularly important to remember to explicitly set the Anti forgery token cookie to use a secure cookie.</p>
+<p class="code"><code class="highlighter">startup.cs</code></p>
+<pre class=" language-csharp"><code class=" language-csharp"><span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">ConfigureServices</span><span class="token punctuation">(</span>IServiceCollection services<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// ...</span>
+
+    services<span class="token punctuation">.</span><span class="token function">AddMvc</span><span class="token punctuation">(</span>
+        options <span class="token operator">=</span><span class="token operator">&gt;</span>
+        <span class="token punctuation">{</span>
+            options<span class="token punctuation">.</span>SslPort <span class="token operator">=</span> <span class="token number">44321</span><span class="token punctuation">;</span>
+            options<span class="token punctuation">.</span>Filters<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">RequireHttpsAttribute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    services<span class="token punctuation">.</span><span class="token function">AddAntiforgery</span><span class="token punctuation">(</span>
+        options <span class="token operator">=</span><span class="token operator">&gt;</span>
+        <span class="token punctuation">{</span>
+            options<span class="token punctuation">.</span>Cookie<span class="token punctuation">.</span>Name <span class="token operator">=</span> <span class="token string">"_af"</span><span class="token punctuation">;</span>
+            options<span class="token punctuation">.</span>Cookie<span class="token punctuation">.</span>HttpOnly <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+            options<span class="token punctuation">.</span>Cookie<span class="token punctuation">.</span>SecurePolicy <span class="token operator">=</span> CookieSecurePolicy<span class="token punctuation">.</span>Always<span class="token punctuation">;</span>
+            options<span class="token punctuation">.</span>HeaderName <span class="token operator">=</span> <span class="token string">"X-XSRF-TOKEN"</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// ...</span>
+<span class="token punctuation">}</span></code></pre>
+<p>&nbsp;</p>
+<div class="photo"><img title="Self-Signed Certificate in Windows 10 with Chrome - Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core" src="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/selfsigned-certificate-in-windows-10-with-chrome.png" alt="Self-Signed Certificate in Windows 10 with Chrome - Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core" class="img-responsive">
+<div class="caption">
+<div class="title">Self-Signed Certificate in Windows 10 with Chrome</div>
+</div>
+</div>
+<p>&nbsp;</p>
+<div class="photo"><img title="Self-Signed Certificate in Ubuntu with Chrome - Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core" src="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/selfsigned-certificate-in-ubuntu-with-chrome.png" alt="Self-Signed Certificate in Ubuntu with Chrome - Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core" class="img-responsive">
+<div class="caption">
+<div class="title">Self-Signed Certificate in Ubuntu with Chrome</div>
+</div>
+</div>
+<p><span style="font-weight: 400;">Once you've made the changes, simply build and run the project, and you'll see Chrome open up without any warning messages and showing your site as secure.</span></p>
+<h3>If you run into problems, follow the following troubleshooting guidelines</h3>
+<ul>
+<li>When launching the project with F5 from Visual Studio Code, ensure that the URL that opened in the browser is https://localhost:44321 and not https://127.0.0.1:44321. There are inconsistencies with the launch URL on Visual Studio Code in Windows, Ubuntu, and OSX. On Windows, the browser launches with localhost, but on Ubuntu, it launches with 127.0.0.1</li>
+<li>Ensure that the localhost.pfx file that you generated with your own password is copied to the web project's root folder (src/https.web)</li>
+<li>Be sure to close all browser windows after installing the certificate so that the new certificate can take effect in Chrome</li>
+<li>On Windows, HTTPS certificates are already installed for localhost if IIS Express is installed. It's a good idea to remove these certificates, or any other localhost certificates first before installing the new certificates.</li>
+</ul>
+<h3>Removing Existing Certificates on Windows</h3>
+<p>To remove existing certificates, open up the Microsoft Management Console and add the Certificates snap-in for Current User and for Local Computer.<br>Then, remove the localhost certificates from the locations as highlighted below before adding your own certificates as outlined in this tutorial.</p>
+<div class="photo"><img title="Remove Certificates from Windows Using the Certificate Manager - Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core" src="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/remove-certificates-from-windows-using-the-certificate-manager.png" alt="Remove Certificates from Windows Using the Certificate Manager - Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core" class="img-responsive">
+<div class="caption">
+<div class="title">Remove Certificates from Windows Using the Certificate Manager</div>
+</div>
+</div>
+<h3>GitHub Repository</h3>
+<p>You can view the GitHub repository here :&nbsp;<a href="https://github.com/thecarlo/https-with-asp-net-core">https://github.com/thecarlo/https-with-asp-net-core</a></p>
+</div>
+<div class="related-posts">
+<h3>Related Posts</h3>
+<ul class="related">
+<li><a href="https://www.humankode.com/ssl/how-to-set-up-free-ssl-certificates-from-lets-encrypt-using-docker-and-nginx">How to Set Up Free SSL Certificates from Let's Encrypt using Docker and Nginx</a></li>
+<li><a href="https://www.humankode.com/ssl/create-a-selfsigned-certificate-for-nginx-in-5-minutes">Create a Self-Signed Certificate for Nginx in 5 Minutes</a></li>
+</ul>
+</div>
+<div class="comments">
+<div id="disqus_thread"><iframe id="dsq-app404" name="dsq-app404" allowtransparency="true" frameborder="0" scrolling="no" tabindex="0" title="Disqus" width="100%" src="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/saved_resource.html" style="width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 6698px !important;" horizontalscrolling="no" verticalscrolling="no"></iframe></div>
+<script type="text/javascript">
+                                /* * * CONFIGURATION VARIABLES * * */
+                                var disqus_shortname = 'humankode';
+
+                                /* * * DON'T EDIT BELOW THIS LINE * * */
+                                (function () {
+                                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                                })();
+                            </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div class="site-width">
+<div class="content-width">
+<h3>more</h3>
+<a href="https://www.humankode.com/contact" id="footer-contact" class="btn btn-default btn-footer">
+Get in touch with me
+</a>
+<div class="social">
+<ul>
+<li>
+<a target="_blank" href="https://twitter.com/thecarlo">
+<span class="social-icon icon-twitter"></span>
+Twitter
+</a>
+</li>
+<li>
+<a target="_blank" href="https://www.github.com/thecarlo">
+<span class="social-icon icon-github"></span>
+GitHub
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/jquery.min.js.download" integrity="sha384-rY/jv8mMhqDabXSo+UCggqKtdmBfd3qC2/KvyTDNQ6PcUJXaxK1tMepoQda4g5vB" crossorigin="anonymous"></script>
+<script src="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/bootstrap.min.js.download" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script src="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/jquery.validate.min.js.download" integrity="sha384-rZfj/ogBloos6wzLGpPkkOr/gpkBNLZ6b6yLy4o+ok+t/SAKlL5mvXLr0OXNi1Hp" crossorigin="anonymous"></script>
+<script src="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/blog.min.js.download"></script>
+<script src="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/prism.min.js.download"></script>
+<link rel="stylesheet" href="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/prism.min.css">
+
+<iframe style="display: none;" src="./Develop Locally with HTTPS, Self-Signed Certificates and ASP.NET Core_files/saved_resource(1).html"></iframe></body></html>
